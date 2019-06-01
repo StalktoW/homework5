@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="homework5.css" type="text/css" rel="stylesheet">
+    <title>hitokoto</title>
+</head>
+<body>
+    <div id="background">
+        <img class="back" src="BACK.png">
+    </div>
+    <div id="top">
+        <div id="menuBtn"><img  src="menu.png"></div>
+        <div id="title">Hitokoto</div>
+        <div id="box">
+            <div>HEART</div>
+            <div>状态</div>
+            <div>登录</div>
+            <div>关于一言</div>
+            <div>戳我</div>
+        </div>
+    </div>
+    <div id="hitokoto_page">
+        <div id="hitokoto">
+            <div id="kotoba"></div>
+            <div id="sakushia"></div>
+        </div>
+    </div>
+    <div class="menu">
+        <div id="menu_title">Hitokoto</div>
+        <div class="menu_content"><div>HEART</div></div>
+        <div class="menu_content"><div>API</div></div>
+        <div class="menu_content"><div>状态</div></div>
+        <div class="menu_content"><div>登录</div></div>
+        <div class="menu_content"><div>想要添加一言？</div></div>
+        <div class="menu_content"><div>关于一言</div></div>
+        <div class="menu_content"><div>暂停</div></div>
+    </div>
+    <div id="shadow"></div>
+    <div id="shadow2"></div>
+    <div id="bottom">Copyright © 2018 Moecraft All Rights Reserved. 沪ICP备16031287号-1 Email:i@loli.online QQ群：70029304</div>
+    <script type="text/javascript">
+        var menuBtn = document.getElementById('menuBtn');
+        var menu = document.getElementsByClassName('menu')[0];
+        var menu_title = document.getElementById('menu_title');
+        var menu_content = document.getElementsByClassName('menu_content');
+        var hitokoto = document.getElementById('hitokoto_page');
+        var shadow2 = document.getElementById('shadow2');
+        var xmlhttp = new XMLHttpRequest();
+        var cir = ' ';
+        shadow2.addEventListener('click',function(){
+            menu.className = 'menu';
+            menu_title.style.width ='0VW';
+            for(var i=0;i<menu_content.length;i++){
+                menu_content[i].className = 'menu_content';
+            }
+            shadow2.style.opacity = '0';
+        })
+        menuBtn.addEventListener('click',function(){
+            menu.className = 'menu active';
+            menu_title.style.width ='10VW';
+            for(var i=0;i<menu_content.length;i++){
+                menu_content[i].className = 'menu_content active';
+            }
+            shadow2.style.opacity = '0.55';
+        })
+        a();
+        window.setInterval("a()",10000);
+        function a(){
+            xmlhttp.onreadystatechange = function (){
+                if (xmlhttp.readyState === 4 && xmlhttp.status==200) {
+                    var data = JSON.parse(xmlhttp.responseText);
+                    var kotoba = document.getElementById('kotoba');
+                    var sukushia = document.getElementById('sakushia');
+                    kotoba.innerText = '『'+data.hitokoto+'』';
+                    sakushia.innerText = '-「'+data.from +'」';
+                    kotoba.style.opacity = '1';
+                    sakushia.style.opacity = '1'; 
+                }
+            }
+            xmlhttp.open('get', 'https://v1.hitokoto.cn/?c=a');
+            xmlhttp.send();
+        }
+    </script>
+</body>
